@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-react-router-pages",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -11,7 +11,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "packageManager": "^pnpm@8.7.6",
   "engines": {
@@ -38,15 +39,22 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "@types/react": "^18.2.8",
+    "@types/react-dom": "^18.2.4",
     "@types/fs-extra": "^11.0.4",
-    "react-router-dom": "^6.18.0",
-    "typescript": "^5.3.2",
-    "unbuild": "^2.0.0"
+    "unbuild": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "typescript": "^5.2.2"
   },
   "peerDependencies": {
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
     "react-router-dom": "^6.18.0",
-    "vite": "^4.5.0"
+    "vite": "^4.5.0 || ^5.0.0"
   }
 }

@@ -1,15 +1,17 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { globSync } from 'glob';
+import type { Plugin } from 'vite';
 
 interface Config {
   // 默认 ['./src/pages/**/index.page.tsx', './src/pages/**/layout.tsx']
   glob: string | string[];
   /** 生成 d.ts 的目录。 默认 ./react-pages.d.ts */
-  declarePath?: string;
+  declarePath: string;
 }
 interface InConfig {
   glob?: string | string[];
+  declarePath?: string;
 }
 
 function getModulesString(files: string[]) {
@@ -54,7 +56,12 @@ function getDeclareString(files: string[]) {
       const value = item.split('/pages').pop()!.replace('/index.page.tsx', '');
       const key = value.slice(1).replace(/\//g, '_').toUpperCase();
       const dynamicValue = value.replace(/\[/g, ':').replace(/\]/g, '');
-      return `    '${key}': '${dynamicValue}'`;
+
+      if (key.includes('[')) {
+        return `    '${key}': '${dynamicValue}'`;
+      }
+      // 避免格式化不一致。key 不包裹 ''
+      return `    ${key}: '${dynamicValue}'`;
     });
 
   return `declare module 'virtual:react-pages' {
@@ -69,7 +76,7 @@ ${arr.join('\n')}
 `;
 }
 
-export default function vitePluginReactRouterV6Pages() {
+export default function vitePluginReactRouterPages(c: InConfig): Plugin {
   const virtualModuleId = 'virtual:react-pages';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
@@ -78,12 +85,11 @@ export default function vitePluginReactRouterV6Pages() {
     declarePath: './react-pages.d.ts',
   };
 
+  Object.assign(config, c);
+
   return {
     name: 'vite-plugin-react-router-v6-pages', // 必须的，将会在 warning 和 error 中显示
     enforce: 'pre', // 强制在其他插件之前执行
-    configResolved(c: InConfig) {
-      Object.assign(config, c);
-    },
     resolveId(id: string) {
       if (id === virtualModuleId) {
         return resolvedVirtualModuleId;
@@ -102,7 +108,7 @@ export default function vitePluginReactRouterV6Pages() {
           fs.writeFileSync(
             path.resolve(process.cwd(), config.declarePath!),
             getDeclareString(files),
-            'utf-8',
+            'utf-8'
           );
         }
 

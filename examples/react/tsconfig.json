@@ -16,10 +16,12 @@
 
     /* Linting */
     "strict": true,
-    "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "types": ["vite/client", "./react-pages.d.ts"]
   },
-  "include": ["src"]
+  "include": ["src", "./react-pages.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

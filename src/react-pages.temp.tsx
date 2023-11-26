@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { lazy, Suspense } from 'react';
 import { set } from 'lodash-es';
 import type { RouteObject } from 'react-router-dom';

@@ -1,0 +1,14 @@
+.husky/
+dist/
+docs/
+node_modules/
+_*
+.*
+!.storybook/
+*.jpg
+*.png
+*.svg
+browserslist
+LICENSE
+package*.json
+pnpm-lock.yaml
