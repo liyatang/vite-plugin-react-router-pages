@@ -1,0 +1,51 @@
+{
+  "name": "vite-plugin-react-router-pages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "packageManager": "^pnpm@8.7.6",
+  "engines": {
+    "node": ">= 16.0.0",
+    "pnpm": ">= 8.7.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "unbuild",
+    "publish": "pnpm run build && npm publish"
+  },
+  "keywords": [
+    "vite-plugin",
+    "react",
+    "react-router",
+    "react-router-v6",
+    "react-pages"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.10",
+    "path": "^0.12.7",
+    "react-router-dom": "^6.18.0",
+    "typescript": "^5.3.2",
+    "unbuild": "^2.0.0",
+    "vite": "^4.5.0"
+  },
+  "peerDependencies": {
+    "lodash-es": "^4.17.21",
+    "react": "^18.2.0",
+    "react-router-dom": "^6.18.0",
+    "vite": "^4.5.0"
+  }
+}
