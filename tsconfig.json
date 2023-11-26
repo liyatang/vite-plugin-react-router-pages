@@ -5,7 +5,6 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "composite": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -22,11 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "types": ["vite/client", "./react-pages.d.ts"],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "types": ["vite/client"]
   },
-  "include": ["src", "packages"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
