@@ -58,10 +58,10 @@ function getDeclareString(files: string[]) {
       const dynamicValue = value.replace(/\[/g, ':').replace(/\]/g, '');
 
       if (key.includes('[')) {
-        return `    '${key}': '${dynamicValue}'`;
+        return `    '${key}': '${dynamicValue}';`;
       }
       // 避免格式化不一致。key 不包裹 ''
-      return `    ${key}: '${dynamicValue}'`;
+      return `    ${key}: '${dynamicValue}';`;
     });
 
   return `declare module 'virtual:react-pages' {
