@@ -76,7 +76,7 @@ ${arr.join('\n')}
 `;
 }
 
-export default function vitePluginReactRouterPages(c: InConfig): Plugin {
+export default function vitePluginReactRouterPages(c?: InConfig): Plugin {
   const virtualModuleId = 'virtual:react-pages';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
