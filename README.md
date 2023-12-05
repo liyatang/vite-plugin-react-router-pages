@@ -1,29 +1,45 @@
 # vite-plugin-react-router-pages
 
-基于文件的约定式路由插件。案例见 [./examples/react](./examples/react)
+基于文件的约定式路由插件。
 
-依赖约束
+## 特性
 
-- vite
-- react 18
-- react router v6
+特性
 
-文件结构
+- vite + react + react-router v6
+- 嵌套路由
+- 页面组件、布局组件
+- 动态路径 `:name`
+- lazy + code-splitting
+- 页面路径类型支持。
+
+目录结构·
 
 ```text
-src
-- pages
-  - home
-    - index.page.tsx // 页面组件
-    - layout.tsx  // 布局组件
-  - user
-    - [userUUID] // 动态路径
-      - index.page.tsx
-      - layout.tsx
+[you project]
+- src
+  - pages
+    - home
+      - index.page.tsx // 页面组件
+      - layout.tsx  // 布局组件
+    - user
+      - [userUUID] // 动态路径
+        - index.page.tsx
+        - layout.tsx
 - react-pages.d.ts // vite 启动生成的的类型文件
 ```
 
-## Getting Started
+已知不支持
+
+- 可选路径 `:name?`
+
+## DEMO
+
+见 [./examples/react](./examples/react)
+
+`pnpm i` `pnpm dev`，根据提示访问即可。
+
+## 安装
 
 ### 1 Install
 
@@ -58,7 +74,9 @@ vite 启动后会插件会生成 `react-pages.d.ts`，添加到 `tsconfig.json`�
 }
 ```
 
-### 4 Overview
+## 使用
+
+### virtual:react-pages
 
 导入 `import { pagesRoutes, PagesRoutes } from "virtual:react-pages";`
 
@@ -111,6 +129,8 @@ app.render(
 );
 ```
 
+### 类型支持
+
 由于 `react-pages.d.ts` 类型支持，你可以很方便的获取到页面路径。
 
 ![](./img/1.jpg)
@@ -127,8 +147,8 @@ navigate(generatePath(PagesRoutes['USER_[USERUUID]'], { userUUID: 'danzi' }));
 
 ```ts
 interface Config {
-  // 默认 ['./src/pages/**/index.page.tsx', './src/pages/**/layout.tsx']
-  glob?: string | string[];
+  // 默认 ./src/pages/
+  pagesPath?: string;
   /** 生成 d.ts 的目录。 默认 ./react-pages.d.ts */
   declarePath?: string;
 }
@@ -144,17 +164,12 @@ export default defineConfig({
   plugins: [
     react(),
     pages({
-      glob: ['./src/pages/**/index.page.tsx', './src/pages/**/layout.tsx'],
+      pagesPath: './src/pages/',
       declarePath: './react-pages.d.ts',
     }),
   ],
 });
 ```
-
-## TODO
-
-- hot reload
-- usePagesNavigate
 
 ## FAQ
 

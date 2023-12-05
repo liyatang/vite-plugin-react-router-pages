@@ -13,8 +13,8 @@ ${files.map((item) => {
 `;
 }
 function getRoutesString(files) {
-  const arr = files.filter((item) => item.includes("/index.page.tsx")).map((item) => {
-    const value = item.split("/pages").pop().replace("/index.page.tsx", "");
+  const arr = files.filter((item) => item.match(/index\.page\.(j|t)sx/g)).map((item) => {
+    const value = item.split("/pages").pop().replace(/\/index\.page\.(j|t)sx/g, "");
     const key = value.slice(1).replace(/\//g, "_").toUpperCase();
     const dynamicValue = value.replace(/\[/g, ":").replace(/\]/g, "");
     return `  '${key}': '${dynamicValue}',`;
@@ -26,8 +26,8 @@ ${arr.join("\n")}
 `;
 }
 function getDeclareString(files) {
-  const arr = files.filter((item) => item.includes("/index.page.tsx")).map((item) => {
-    const value = item.split("/pages").pop().replace("/index.page.tsx", "");
+  const arr = files.filter((item) => item.match(/index\.page\.(j|t)sx/g)).map((item) => {
+    const value = item.split("/pages").pop().replace(/\/index\.page\.(j|t)sx/g, "");
     const key = value.slice(1).replace(/\//g, "_").toUpperCase();
     const dynamicValue = value.replace(/\[/g, ":").replace(/\]/g, "");
     if (key.includes("[")) {

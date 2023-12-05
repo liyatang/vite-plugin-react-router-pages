@@ -55,10 +55,10 @@ function modulesToPathModules(modules: Modules): PathModules {
     const module: () => Promise<any> = modules[key];
 
     // 如果是 layout
-    if (key.includes('/layout.tsx')) {
+    if (key.includes('/layout.tsx') || key.includes('/layout.jsx')) {
       // ./pages/demo/layout.tsx => /demo
       // ./pages/demo/info/layout.tsx => /demo/info
-      const path = key.split('/pages').pop()!.replace('/layout.tsx', '');
+      const path = key.split('/pages').pop()!.replace('/layout.tsx', '').replace('/layout.jsx', '');
 
       // /demo => demo => demo
       // /demo/info => demo/info => demo.children.info
@@ -73,10 +73,14 @@ function modulesToPathModules(modules: Modules): PathModules {
       set(pathModules, `${setPath}.module`, module);
     }
     // 同理
-    else if (key.includes('/index.page.tsx')) {
+    else if (key.includes('/index.page.tsx') || key.includes('/index.page.jsx')) {
       // ./pages/demo/index.page.tsx => /demo
       // ./pages/demo/info/index.page.tsx => /demo/info
-      const path = key.split('/pages').pop()!.replace('/index.page.tsx', '');
+      const path = key
+        .split('/pages')
+        .pop()!
+        .replace('/index.page.tsx', '')
+        .replace('/index.page.jsx', '');
 
       // /demo => demo => demo
       // /demo/info => demo/info => demo.children.info

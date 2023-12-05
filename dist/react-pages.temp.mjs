@@ -5,14 +5,14 @@ function modulesToPathModules(modules) {
   const pathModules = {};
   Object.keys(modules).forEach((key) => {
     const module = modules[key];
-    if (key.includes("/layout.tsx")) {
-      const path = key.split("/pages").pop().replace("/layout.tsx", "");
+    if (key.includes("/layout.tsx") || key.includes("/layout.jsx")) {
+      const path = key.split("/pages").pop().replace("/layout.tsx", "").replace("/layout.jsx", "");
       const setPath = path.slice(1).replace(/\//g, ".children.");
       const lastPath = path.split("/").slice(-1)[0].replace(/\[/g, ":").replace(/\]/g, "");
       set(pathModules, `${setPath}.path`, lastPath);
       set(pathModules, `${setPath}.module`, module);
-    } else if (key.includes("/index.page.tsx")) {
-      const path = key.split("/pages").pop().replace("/index.page.tsx", "");
+    } else if (key.includes("/index.page.tsx") || key.includes("/index.page.jsx")) {
+      const path = key.split("/pages").pop().replace("/index.page.tsx", "").replace("/index.page.jsx", "");
       const setPath = path.slice(1).replace(/\//g, ".children.");
       const lastPath = path.split("/").slice(-1)[0].replace(/\[/g, ":").replace(/\]/g, "");
       set(pathModules, `${setPath}.path`, lastPath);
