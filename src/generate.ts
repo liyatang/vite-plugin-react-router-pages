@@ -99,11 +99,14 @@ function generateDeclare(config: Config) {
 
   // 生成 react-pages.d.ts 文件
   if (config.declarePath) {
-    fs.writeFileSync(
-      path.resolve(process.cwd(), config.declarePath!),
-      getDeclareString(files),
-      'utf-8'
-    );
+    const file = path.resolve(process.cwd(), config.declarePath!);
+
+    fs.writeFileSync(file, getDeclareString(files), 'utf-8');
+
+    const prettier = path.resolve('./node_modules/.bin/prettier');
+    if (fs.existsSync(prettier)) {
+      require('child_process').execSync(`${prettier} --write ${file}`);
+    }
   }
 }
 

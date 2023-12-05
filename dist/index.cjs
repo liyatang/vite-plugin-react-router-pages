@@ -65,11 +65,12 @@ function generate(config) {
 function generateDeclare(config) {
   let files = getFiles(config);
   if (config.declarePath) {
-    fs__default.writeFileSync(
-      path__default.resolve(process.cwd(), config.declarePath),
-      getDeclareString(files),
-      "utf-8"
-    );
+    const file = path__default.resolve(process.cwd(), config.declarePath);
+    fs__default.writeFileSync(file, getDeclareString(files), "utf-8");
+    const prettier = path__default.resolve("./node_modules/.bin/prettier");
+    if (fs__default.existsSync(prettier)) {
+      require("child_process").execSync(`${prettier} --write ${file}`);
+    }
   }
 }
 
