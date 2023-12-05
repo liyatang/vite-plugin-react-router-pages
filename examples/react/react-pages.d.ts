@@ -4,10 +4,10 @@ declare module 'virtual:react-pages' {
   export const pagesRoutes: RouteObject[];
 
   export const PagesRoutes: {
-    USER: '/user'
-    'USER_[USERUUID]': '/user/:userUUID'
-    'USER_[USERUUID]_INFO': '/user/:userUUID/info'
-    HOME: '/home'
-    DEMO: '/demo'
+    USER: '/user';
+    'USER_[USERUUID]': '/user/:userUUID';
+    'USER_[USERUUID]_INFO': '/user/:userUUID/info';
+    HOME: '/home';
+    DEMO: '/demo';
   };
 }

@@ -36,9 +36,9 @@ pnpm i -D vite-plugin-react-router-pages
 添加插件 `vite-plugin-react-router-pages` 到 `vite.config.ts`
 
 ```ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import pages from "vite-plugin-react-router-pages";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import pages from 'vite-plugin-react-router-pages';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -68,20 +68,20 @@ vite 启动后会插件会生成 `react-pages.d.ts`，添加到 `tsconfig.json`�
 - `PagesRoutes` 存储路由路径，可通过 `PagesRoutes.HOME` 访问页面路径。
 
 ```tsx
-import { useCallback } from "react";
-import { createRoot } from "react-dom/client";
+import { useCallback } from 'react';
+import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter as Router,
   useRoutes,
   Navigate,
   useNavigate,
   generatePath,
-} from "react-router-dom";
-import { pagesRoutes, PagesRoutes } from "virtual:react-pages";
+} from 'react-router-dom';
+import { pagesRoutes, PagesRoutes } from 'virtual:react-pages';
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     element: <Navigate to={PagesRoutes.HOME} />,
   },
   ...pagesRoutes,
@@ -92,20 +92,18 @@ console.log(routes);
 function App() {
   const navigate = useNavigate();
   const handleClick = useCallback(() => {
-    navigate(
-      generatePath(PagesRoutes["USER_[USERUUID]"], { userUUID: "danzhi" })
-    );
+    navigate(generatePath(PagesRoutes['USER_[USERUUID]'], { userUUID: 'danzi' }));
   }, [navigate]);
 
   return (
     <div className="app">
-      <button onClick={handleClick}>navigate user/danzhi</button>
+      <button onClick={handleClick}>navigate user/danzi</button>
       {useRoutes(routes)}
     </div>
   );
 }
 
-const app = createRoot(document.getElementById("root")!);
+const app = createRoot(document.getElementById('root')!);
 app.render(
   <Router>
     <App />
@@ -120,9 +118,9 @@ app.render(
 对于动态路径，如 `/user/:userUUID`，通过 `PagesRoutes['USER_[USERUUID]']` 访问，由于路径上清晰的标记了参数 `[USERUUID]`，你可以很方便反应出参数 `userUUID`。
 
 ```tsx
-import { useNavigate, generatePath } from "react-router-dom";
+import { useNavigate, generatePath } from 'react-router-dom';
 
-navigate(generatePath(PagesRoutes["USER_[USERUUID]"], { userUUID: "danzhi" }));
+navigate(generatePath(PagesRoutes['USER_[USERUUID]'], { userUUID: 'danzi' }));
 ```
 
 ## Configuration
@@ -137,17 +135,17 @@ interface Config {
 ```
 
 ```ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import pages from "vite-plugin-react-router-pages";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import pages from 'vite-plugin-react-router-pages';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     pages({
-      glob: ["./src/pages/**/index.page.tsx", "./src/pages/**/layout.tsx"],
-      declarePath: "./react-pages.d.ts",
+      glob: ['./src/pages/**/index.page.tsx', './src/pages/**/layout.tsx'],
+      declarePath: './react-pages.d.ts',
     }),
   ],
 });
