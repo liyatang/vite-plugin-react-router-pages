@@ -7,13 +7,13 @@
 特性
 
 - vite + react + react-router v6
-- 嵌套路由
-- 页面组件、布局组件
+- 嵌套路由 Nested
+- 页面组件 index.page.tsx 、布局组件 layout.tsx
 - 动态路径 `:name`
 - lazy + code-splitting
-- 页面路径类型支持。
+- 页面路径类型支持 `PagesRoutes.xxxx`
 
-目录结构·
+目录结构
 
 ```text
 [you project]
@@ -31,13 +31,11 @@
 
 已知不支持
 
-- 可选路径 `:name?`
+- 可选路径 `:name?`，_没想好怎么在文件路径上提现，如果你有好的想法，请联系我。_
 
 ## DEMO
 
 见 [./examples/react](./examples/react)
-
-`pnpm i` `pnpm dev`，根据提示访问即可。
 
 ## 安装
 
