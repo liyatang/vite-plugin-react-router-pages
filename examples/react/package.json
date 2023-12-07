@@ -1,5 +1,5 @@
 {
-  "name": "react",
+  "name": "@examples/react",
   "private": true,
   "scripts": {
     "dev": "vite"

@@ -20,15 +20,16 @@
     "pnpm": ">= 8.7.6"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "unbuild",
-    "release": "pnpm run build && npm publish"
+    "release": "pnpm run build && npm publish",
+    "clean": "rm -rf pnpm-lock.yaml node_modules **/*/node_modules"
   },
   "keywords": [
     "vite-plugin",
     "react",
     "react-router",
     "react-router-v6",
+    "pages",
     "react-pages"
   ],
   "author": "",
@@ -39,17 +40,17 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
-    "@types/fs-extra": "^11.0.4",
-    "unbuild": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react": "^4.2.0",
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "unbuild": "^2.0.0"
   },
   "peerDependencies": {
     "lodash-es": "^4.17.21",
