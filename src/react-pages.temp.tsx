@@ -1,8 +1,10 @@
 // @ts-ignore
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, ReactNode, ComponentType } from 'react';
 import { set } from 'lodash-es';
+import { Outlet } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
 
+type Module = () => Promise<{ default: ComponentType }>;
 /*
 import('xxx') 统一使用 Module 表示
 const modules = {
@@ -11,7 +13,7 @@ const modules = {
   './pages/demo/info/index.page.tsx': Module,
 };
 */
-type Modules = Record<string, () => Promise<any>>;
+type Modules = Record<string, () => Module>;
 
 /*
 const pathModules = {
@@ -38,13 +40,18 @@ const pathModules = {
 */
 type PathModules = Record<
   string,
-  { path: string; index?: true; module: Promise<any>; children?: PathModules }
+  {
+    path: string;
+    index?: true;
+    module: Module;
+    children?: PathModules;
+  }
 >;
 
 type PathModulesValues = {
   path: string;
   index?: true;
-  module: Promise<any>;
+  module: Module;
   children?: PathModulesValues[];
 }[];
 
@@ -52,7 +59,7 @@ function modulesToPathModules(modules: Modules): PathModules {
   const pathModules: PathModules = {};
 
   Object.keys(modules).forEach((key) => {
-    const module: () => Promise<any> = modules[key];
+    const module: () => Module = modules[key];
 
     // 如果是 layout
     if (key.includes('/layout.tsx') || key.includes('/layout.jsx')) {
@@ -99,6 +106,27 @@ function modulesToPathModules(modules: Modules): PathModules {
   });
 
   return pathModules;
+}
+
+function fixPathModules(pathModules: PathModules) {
+  function DefaultLayout() {
+    return <Outlet />;
+  }
+
+  Object.keys(pathModules).forEach((key) => {
+    const pathModule = pathModules[key];
+
+    // children 则递归
+    if (pathModule.children) {
+      fixPathModules(pathModule.children);
+    }
+    // 非 index router 的情况，如果没有 path，则可能是 深层嵌套 router 造成。
+    // 需要设置 path 和 默认 element <Outlet>
+    if (!pathModule.index && !pathModule.path) {
+      pathModule.path = key;
+      pathModule.module = () => Promise.resolve({ default: DefaultLayout });
+    }
+  });
 }
 
 function pathModulesToValues(pathModules): PathModulesValues {
@@ -150,8 +178,10 @@ function moduleToElement(pathModulesValues: PathModulesValues): RouteObject[] {
 }
 
 function modulesToRoutes(modules: Modules): RouteObject[] {
-  // 转换成对象形式
+  // modules 转换成对象形式
   const pathModules = modulesToPathModules(modules);
+  // 修复 pathModules，支持深层嵌套路由
+  fixPathModules(pathModules);
   // 再转数组
   const values = pathModulesToValues(pathModules);
   // 转成 route

@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { set } from 'lodash-es';
+import { Outlet } from 'react-router-dom';
 
 function modulesToPathModules(modules) {
   const pathModules = {};
@@ -21,6 +22,21 @@ function modulesToPathModules(modules) {
     }
   });
   return pathModules;
+}
+function fixPathModules(pathModules) {
+  function DefaultLayout() {
+    return /* @__PURE__ */ React.createElement(Outlet, null);
+  }
+  Object.keys(pathModules).forEach((key) => {
+    const pathModule = pathModules[key];
+    if (pathModule.children) {
+      fixPathModules(pathModule.children);
+    }
+    if (!pathModule.index && !pathModule.path) {
+      pathModule.path = key;
+      pathModule.module = () => Promise.resolve({ default: DefaultLayout });
+    }
+  });
 }
 function pathModulesToValues(pathModules) {
   function valuesDeep(obj) {
@@ -55,6 +71,7 @@ function moduleToElement(pathModulesValues) {
 }
 function modulesToRoutes(modules) {
   const pathModules = modulesToPathModules(modules);
+  fixPathModules(pathModules);
   const values = pathModulesToValues(pathModules);
   return moduleToElement(values);
 }

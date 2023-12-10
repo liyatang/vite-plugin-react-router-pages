@@ -2,6 +2,7 @@
 
 const React = require('react');
 const lodashEs = require('lodash-es');
+const reactRouterDom = require('react-router-dom');
 
 function _interopDefaultCompat (e) { return e && typeof e === 'object' && 'default' in e ? e.default : e; }
 
@@ -27,6 +28,21 @@ function modulesToPathModules(modules) {
     }
   });
   return pathModules;
+}
+function fixPathModules(pathModules) {
+  function DefaultLayout() {
+    return /* @__PURE__ */ React__default.createElement(reactRouterDom.Outlet, null);
+  }
+  Object.keys(pathModules).forEach((key) => {
+    const pathModule = pathModules[key];
+    if (pathModule.children) {
+      fixPathModules(pathModule.children);
+    }
+    if (!pathModule.index && !pathModule.path) {
+      pathModule.path = key;
+      pathModule.module = () => Promise.resolve({ default: DefaultLayout });
+    }
+  });
 }
 function pathModulesToValues(pathModules) {
   function valuesDeep(obj) {
@@ -61,6 +77,7 @@ function moduleToElement(pathModulesValues) {
 }
 function modulesToRoutes(modules) {
   const pathModules = modulesToPathModules(modules);
+  fixPathModules(pathModules);
   const values = pathModulesToValues(pathModules);
   return moduleToElement(values);
 }

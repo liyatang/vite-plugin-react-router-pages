@@ -27,7 +27,9 @@ function App() {
 
   return (
     <div className="app">
+      <h2>App</h2>
       <button onClick={handleClick}>navigate user/danzi</button>
+      <hr />
       {useRoutes(routes)}
     </div>
   );
