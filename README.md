@@ -2,21 +2,22 @@
 
 基于文件的约定式路由插件。
 
-## 特性
+## 介绍
 
 特性
 
 - vite + react + react-router v6
-- 嵌套路由 Nested
-- 页面组件 index.page.tsx 、布局组件 layout.tsx
+- 嵌套路由 nested
+- 页面组件 index.page.tsx
+- 布局组件 layout.tsx
 - 动态路径 `:name`
 - lazy + code-splitting
-- 页面路径类型支持 `PagesRoutes.xxxx`
+- 路由类型支持 `PagesRoutes.xxxx`
 
 目录结构
 
-```text
-[you project]
+```js
+[you project name]
 - src
   - pages
     - home
@@ -26,6 +27,9 @@
       - [userUUID] // 动态路径
         - index.page.tsx
         - layout.tsx
+      - setting // 可不提供 layout.tsx，默认 layout 为 <Outlet />
+        - email
+          - index.page.tsx // 嵌套路由
 - react-pages.d.ts // vite 启动生成的的类型文件
 ```
 
@@ -42,7 +46,7 @@
 ### 1 Install
 
 ```bash
-pnpm i -D vite-plugin-react-router-pages
+npm i -D vite-plugin-react-router-pages
 ```
 
 ### 2 Vite config
@@ -62,7 +66,7 @@ export default defineConfig({
 
 ### 3 tsconfig.json
 
-vite 启动后会插件会生成 `react-pages.d.ts`，添加到 `tsconfig.json`，以便获得类型 typescript 支持。
+vite 启动后会插件会生成 `react-pages.d.ts`，可添加到 `tsconfig.json`，以便获得 typescript 支持。
 
 ```json
 {
@@ -74,7 +78,7 @@ vite 启动后会插件会生成 `react-pages.d.ts`，添加到 `tsconfig.json`�
 
 ## 使用
 
-### virtual:react-pages
+### 1 virtual:react-pages
 
 导入 `import { pagesRoutes, PagesRoutes } from "virtual:react-pages";`
 
@@ -127,13 +131,13 @@ app.render(
 );
 ```
 
-### 类型支持
+### 2 类型支持
 
-由于 `react-pages.d.ts` 类型支持，你可以很方便的获取到页面路径。
+由于 `react-pages.d.ts` 的类型支持，你可以很方便的获取到路由路径。
 
 ![](./img/1.jpg)
 
-对于动态路径，如 `/user/:userUUID`，通过 `PagesRoutes['USER_[USERUUID]']` 访问，由于路径上清晰的标记了参数 `[USERUUID]`，你可以很方便反应出参数 `userUUID`。
+对于动态路径，如 `/user/:userUUID`，通过 `PagesRoutes['USER_[USERUUID]']` 访问，由于路径上清晰的提现了参数 `[USERUUID]`，你可以很方便知道参数是 `userUUID`。
 
 ```tsx
 import { useNavigate, generatePath } from 'react-router-dom';
@@ -145,7 +149,7 @@ navigate(generatePath(PagesRoutes['USER_[USERUUID]'], { userUUID: 'danzi' }));
 
 ```ts
 interface Config {
-  // 默认 ./src/pages/
+  /** 默认 ./src/pages/ */
   pagesPath?: string;
   /** 生成 d.ts 的目录。 默认 ./react-pages.d.ts */
   declarePath?: string;
@@ -173,8 +177,8 @@ export default defineConfig({
 
 ### 1. 为什么不使用 vite-plugin-pages
 
-- vite-plugin-pages 的 React 部分是 **experimental** 的，不稳定。其实现覆盖 vue React Solid，不免有些复杂，不好 fork 来改。
-- 基于约定是路由能做更多事情，比如生成 `PagesRoutes`，and more。
+- vite-plugin-pages 的 React 部分是 **experimental** 的，不稳定。其实现覆盖 Vue React Solid，不免有些复杂，不好 fork 来改。
+- 我看到基于约定式路由能做更多事情，比如生成 `PagesRoutes`，and more。
 - 研究后发现，非常容易实现，且社区没有一个相对成熟的。
 
 ## 交流
