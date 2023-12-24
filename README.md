@@ -181,6 +181,12 @@ export default defineConfig({
 - 我看到基于约定式路由能做更多事情，比如生成 `PagesRoutes`，and more。
 - 研究后发现，非常容易实现，且社区没有一个相对成熟的。
 
+## 开发
+
+1 安装依赖 `pnpm i`
+2 运行 demo `cd examples/react` `pnpm dev`
+3 开发调试，修改代码后在根目录 `pnpm build`，再跑第 2 步看效果。
+
 ## 交流
 
 <img src="./img/wechat.jpg" width="150px" />

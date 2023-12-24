@@ -33,20 +33,24 @@ export default function vitePluginReactRouterPages(c?: InConfig): Plugin {
     },
     load(id: string) {
       if (id === resolvedVirtualModuleId) {
+        logger.info('generate react-pages.d.ts');
         generateDeclare(config);
         return generate(config);
       }
     },
     configureServer(server) {
       const listener = (file = '') => {
-        if (file.includes('/src/pages/')) {
-          logger.info('generate react-pages.d.ts');
+        if (
+          file.includes('/src/pages/') &&
+          (file.includes('/index.page.') || file.includes('/layout.'))
+        ) {
+          logger.info(`generate react-pages.d.ts ${file}`);
           generateDeclare(config);
         }
       };
-
+      // file has been added
       server.watcher.on('add', listener);
-      server.watcher.on('change', listener);
+      // file has been removed
       server.watcher.on('unlink', listener);
     },
   };

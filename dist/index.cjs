@@ -94,19 +94,19 @@ function vitePluginReactRouterPages(c) {
     },
     load(id) {
       if (id === resolvedVirtualModuleId) {
+        logger.info("generate react-pages.d.ts");
         generateDeclare(config);
         return generate(config);
       }
     },
     configureServer(server) {
       const listener = (file = "") => {
-        if (file.includes("/src/pages/")) {
-          logger.info("generate react-pages.d.ts");
+        if (file.includes("/src/pages/") && (file.includes("/index.page.") || file.includes("/layout."))) {
+          logger.info(`generate react-pages.d.ts ${file}`);
           generateDeclare(config);
         }
       };
       server.watcher.on("add", listener);
-      server.watcher.on("change", listener);
       server.watcher.on("unlink", listener);
     }
   };
