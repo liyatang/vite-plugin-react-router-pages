@@ -47,7 +47,7 @@ ${arr.join("\n")}
 `;
 }
 function getFiles(config) {
-  let files = globSync(path.join(config.pagesPath, "**/{index.page,layout}.{jsx,tsx}"));
+  let files = globSync(path.posix.join(config.pagesPath, "**/{index.page,layout}.{jsx,tsx}"));
   return files.map((file) => `./${file}`);
 }
 function generate(config) {
