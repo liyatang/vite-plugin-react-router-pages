@@ -78,7 +78,10 @@ interface Config {
 function getFiles(config: Config) {
   // 获取匹配到的文件
   // [ 'src/pages/demo/index.page.tsx', '/src/pages/demo/layout.tsx', 'src/pages/demo/info/index.page.tsx']
-  let files = globSync(path.posix.join(config.pagesPath, '**/{index.page,layout}.{jsx,tsx}'));
+  let files = globSync(path.posix.join(config.pagesPath, '**/{index.page,layout}.{jsx,tsx}'), {
+    posix: true,
+    dotRelative: true,
+  });
   // glob 返回 src/pages/xxxx，所以补下 ./
   return files.map((file) => `./${file}`);
 }
